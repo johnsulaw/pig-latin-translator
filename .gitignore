@@ -1,0 +1,7 @@
+config/local.neon
+
+# temporary files
+/temp/*
+
+# logs
+/log/*

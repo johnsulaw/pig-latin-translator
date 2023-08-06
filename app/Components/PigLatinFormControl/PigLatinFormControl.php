@@ -23,7 +23,9 @@ class PigLatinFormControl extends Control
     {
         $form = new Form;
 
-        $form->addTextArea('text', 'Input text', 30, 7);
+        $form->addTextArea('text', 'Input text', 30, 7)
+            ->setRequired();
+
         $form->addSubmit('send', 'Translate');
 
         $form->onSuccess[] = [$this, 'process'];
@@ -35,7 +37,13 @@ class PigLatinFormControl extends Control
     {
         $values = $form->getValues('array');
 
-        $translatedString = $this->translatePigLatinService->translate($values['text']);
+        $translatedString = '';
+
+        $splitInput = array_filter(explode(' ', $values['text']));
+
+        foreach ($splitInput as $word) {
+            $translatedString .= $this->translatePigLatinService->translate($word) . ' ';
+        }
 
         $this->presenter->template->translatedText = $translatedString;
     }

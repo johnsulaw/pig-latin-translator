@@ -1,3 +1,7 @@
+# IDE
+.idea
+
+# local config file
 config/local.neon
 
 # temporary files

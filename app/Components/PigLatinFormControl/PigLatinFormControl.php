@@ -35,6 +35,8 @@ class PigLatinFormControl extends Control
     {
         $values = $form->getValues('array');
 
-        $this->translatePigLatinService->translate($values['text']);
+        $translatedString = $this->translatePigLatinService->translate($values['text']);
+
+        $this->presenter->template->translatedText = $translatedString;
     }
 }

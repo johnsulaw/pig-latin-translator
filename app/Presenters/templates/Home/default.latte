@@ -1,5 +1,13 @@
 {block content}
-	Simple pig latin translator
+	<h4 class="text-black-80 text-center mt-4">Simple pig latin translator</h4>
 
-	{control pigLatinForm}
+	<div class="">
+		{control pigLatinForm}
+
+		<div id="translationResult">
+			{ifset $translatedText}
+				<p>Translated Text: {$translatedText}</p>
+			{/ifset}
+		</div>
+	</div>
 {/block}

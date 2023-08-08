@@ -6,7 +6,6 @@ use App\Components\PigLatinFormControl\IPigLatinFormControlFactory;
 use App\Components\PigLatinFormControl\PigLatinFormControl;
 use Nette\Application\UI\Presenter;
 
-
 final class HomePresenter extends Presenter
 {
 
@@ -20,6 +19,4 @@ final class HomePresenter extends Presenter
     {
         return $this->pigLatinFormFactory->create();
     }
-
-
 }

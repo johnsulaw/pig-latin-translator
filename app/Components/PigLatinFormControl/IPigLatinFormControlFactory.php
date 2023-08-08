@@ -6,5 +6,4 @@ interface IPigLatinFormControlFactory
 {
 
     public function create(): PigLatinFormControl;
-
 }

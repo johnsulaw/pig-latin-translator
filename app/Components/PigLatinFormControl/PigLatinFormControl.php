@@ -8,8 +8,7 @@ use Nette\Application\UI\Form;
 
 class PigLatinFormControl extends Control
 {
-    public function __construct(private TranslatePigLatinService $translatePigLatinService
-    )
+    public function __construct(private TranslatePigLatinService $translatePigLatinService)
     {
     }
 
@@ -41,7 +40,9 @@ class PigLatinFormControl extends Control
         $translatedString = '';
 
         foreach ($splitInput as $word) {
-            $translatedString .= is_numeric($word) ? $word . ' ' : $this->translatePigLatinService->translate($word) . ' ';
+            $translatedString .= is_numeric($word)
+                ? $word . ' '
+                : $this->translatePigLatinService->translate($word) . ' ';
         }
 
         $this->presenter->template->translatedText = $translatedString;

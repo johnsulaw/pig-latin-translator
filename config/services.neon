@@ -8,4 +8,5 @@ search:
 
 services:
 	- App\Router\RouterFactory::createRouter
-	- App\Services\TranslatePigLatinService
+	- App\Services\TranslatePigLatin\TranslatePigLatinService
+	- App\Services\TranslatePigLatin\TranslatePigLatinEnum

@@ -2,7 +2,7 @@
 
 namespace App\Components\PigLatinFormControl;
 
-use App\Services\TranslatePigLatinService;
+use App\Services\TranslatePigLatin\TranslatePigLatinService;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 
@@ -19,7 +19,7 @@ class PigLatinFormControl extends Control
         $this->getTemplate()->render();
     }
 
-    public function createComponentForm(): Form
+    protected function createComponentForm(): Form
     {
         $form = new Form;
 
@@ -36,13 +36,12 @@ class PigLatinFormControl extends Control
     public function process(Form $form): void
     {
         $values = $form->getValues('array');
+        $splitInput = array_filter(explode(' ', $values['text']));
 
         $translatedString = '';
 
-        $splitInput = array_filter(explode(' ', $values['text']));
-
         foreach ($splitInput as $word) {
-            $translatedString .= $this->translatePigLatinService->translate($word) . ' ';
+            $translatedString .= is_numeric($word) ? $word . ' ' : $this->translatePigLatinService->translate($word) . ' ';
         }
 
         $this->presenter->template->translatedText = $translatedString;

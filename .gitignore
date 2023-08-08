@@ -11,4 +11,4 @@ config/local.neon
 /log/*
 
 # composer
-/vendor/
+/vendor

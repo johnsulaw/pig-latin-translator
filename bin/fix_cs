@@ -1,0 +1,6 @@
+#!/usr/bin/env php
+<?php
+
+passthru(escapeshellarg(__DIR__ . '/../vendor/bin/phpcbf')
+	. ' ' . escapeshellarg('--standard=PSR2')
+	. ' --extensions=php --encoding=utf-8 --tab-width=4 -sp app');

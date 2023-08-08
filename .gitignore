@@ -9,3 +9,6 @@ config/local.neon
 
 # logs
 /log/*
+
+# composer
+/vendor/

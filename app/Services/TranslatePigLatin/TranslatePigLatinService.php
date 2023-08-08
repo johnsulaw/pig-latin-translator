@@ -11,7 +11,9 @@ class TranslatePigLatinService
 
     public function translate(string $translationString): string
     {
-        return in_array($translationString[0], $this->pigLatinEnum::getVowels(), true) ? $this->translateVowelBeginning($translationString) : $this->translateConsonantBeginning($translationString);
+        return in_array($translationString[0], $this->pigLatinEnum::getVowels(), true)
+            ? $this->translateVowelBeginning($translationString)
+            : $this->translateConsonantBeginning($translationString);
     }
 
     private function translateConsonantBeginning(string $translationString): string
@@ -37,5 +39,4 @@ class TranslatePigLatinService
     {
         return $translationString . $this->pigLatinEnum::PIG_LATIN_SUFFIX;
     }
-
 }

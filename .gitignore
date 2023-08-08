@@ -1,5 +1,5 @@
 # IDE
-.idea
+.idea/
 
 # local config file
 config/local.neon

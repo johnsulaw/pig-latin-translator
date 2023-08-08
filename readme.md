@@ -1,15 +1,31 @@
-Nette Web Project
+Pig Latin Translator in Nette
 =================
 
-This is a simple, skeleton application using the [Nette](https://nette.org). This is meant to
-be used as a starting point for your new projects.
+Pig Latin is essentially a game of alterations played on the English language game. To form
+the Pig Latin form of an English word the initial consonant sound is transposed to the end of
+the word and an ay is affixed (Ex.:“banana“ would yield anana-bay). The purpose of the alte-
+ration is to both obfuscate the encoding and to indicate for the intended recipient the enco-
+ding as ‘Pig Latin‘. The reference to Latin is a deliberate misnomer, as it is simply a form
+of jargon, used only for its English connotations as a ‘strange and foreign-sounding language‘.
+The origins of Pig Latin are unknown.
+The usual rules for changing standard English into Pig Latin are as follows:
 
-[Nette](https://nette.org) is a popular tool for PHP web development.
-It is designed to be the most usable and friendliest as possible. It focuses
-on security and performance and is definitely one of the safest PHP frameworks.
+In words that begin with **consonant** sounds, the initial consonant or consonant cluster is
+moved to the end of the word, and “ay“ is added, as in the following examples:
 
-If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
+- beast → east-bay
+- dough → ough-day
+- happy → appy-hay
+- question → estion-quay
+- star → ar-stay
+- three → ee-thray
 
+In words that begin with **vowel** sounds or silent consonants, the syllable “ay“ is added to the
+end of the word. In some dialects, to aid in pronunciation, an extra consonant is added to the
+beginning of the suffix; for instance,eagle could yield eagle‘yay, eagle‘way, or eagle‘hay.
+Transcription varies. A hyphen or apostrophe is sometimes used to facilitate translation back
+into English. Ayspray, for instance, is ambiguous, but ay-spray means “spray“ whereas ays-pray
+means “prays.
 
 Requirements
 ------------

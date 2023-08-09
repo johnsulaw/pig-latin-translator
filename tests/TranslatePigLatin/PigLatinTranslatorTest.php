@@ -19,13 +19,47 @@ class PigLatinTranslatorTest extends TestCase
         $this->translatePigLatinService = new TranslatePigLatinService($pigLatinEnum);
     }
 
-    public function testTranslateWord()
+    public function testTranslateConsonantWord(): void
     {
-        $englishWord = 'beast';
-        $expectedPigLatinWord = 'eastbay';
+        $word = 'beast';
+        $expectedResult = 'eastbay';
 
-        $result = $this->translatePigLatinService->translate($englishWord);
-        $this->assertEquals($expectedPigLatinWord, $result);
+        $result = $this->translatePigLatinService->translate($word);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testTranslateVowelWord(): void
+    {
+        $word = 'eagle';
+        $expectedResult = 'eagleay';
+
+        $result = $this->translatePigLatinService->translate($word);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    //public function translateSimpleSentence(): void
+    //{
+    //    $sentence = 'Quick brown fox jumps over the lazy dog.';
+    //}
+
+    public function testTranslateNumber(): void
+    {
+        $number = '42';
+
+        $result = $this->translatePigLatinService->translate($number);
+        $this->assertEquals($number, $result);
+    }
+
+    public function testWhitespaceCharacters(): void
+    {
+        $whitespaceCharacters = [' ', "\t", PHP_EOL];
+        $result = [];
+
+        foreach ($whitespaceCharacters as $character) {
+            $result[] = $this->translatePigLatinService->translate($character);
+        }
+
+        $this->assertEquals($whitespaceCharacters, $result);
     }
 
     //public function testTranslateSentence()

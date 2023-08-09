@@ -37,32 +37,41 @@ class PigLatinTranslatorTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    //public function translateSimpleSentence(): void
-    //{
-    //    $sentence = 'Quick brown fox jumps over the lazy dog.';
-    //}
-
-    public function testTranslateNumber(): void
+    public function testTranslateSimpleSentence(): void
     {
-        $number = '42';
+        $sentence = 'Quick brown fox jumps over the lazy dog.';
+        $expectedResult = 'uickQay ownbray oxfay umpsjay overyay ethay azylay ogday.';
 
-        $result = $this->translatePigLatinService->translate($number);
-        $this->assertEquals($number, $result);
+        $result = $this->translatePigLatinService->translate($sentence);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testTranslateMultipleSentences(): void
+    {
+        $sentence = 'His house is very beautiful. That one, over there? Yes, that one!';
+        $expectedResult = 'isHay ousehay isyay eryvay eautifulbay. atThay oneyay, overyay erethay? esYay, atthay oneyay!';
+
+        $result = $this->translatePigLatinService->translate($sentence);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testTranslateNonAlphabeticalString(): void
+    {
+        $nonAlphaStrings = ['42', '!', '?!', ';', '#', '-'];
+
+        foreach ($nonAlphaStrings as $string) {
+            $result = $this->translatePigLatinService->translate($string);
+            $this->assertEquals($string, $result);
+        }
     }
 
     public function testWhitespaceCharacters(): void
     {
         $whitespaceCharacters = [' ', "\t", PHP_EOL];
-        $result = [];
 
         foreach ($whitespaceCharacters as $character) {
-            $result[] = $this->translatePigLatinService->translate($character);
+            $result = $this->translatePigLatinService->translate($character);
+            $this->assertEquals('', $result);
         }
-
-        $this->assertEquals($whitespaceCharacters, $result);
     }
-
-    //public function testTranslateSentence()
-    //{
-    //}
 }

@@ -26,11 +26,13 @@ class TranslatePigLatinEnum
         'A', 'E', 'I', 'O', 'U',
     ];
 
+    /** @return string[] */
     public static function getConsonants(): array
     {
         return self::CONSONANTS;
     }
 
+    /** @return string[] */
     public static function getVowels(): array
     {
         return self::VOWELS;

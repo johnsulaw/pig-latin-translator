@@ -35,14 +35,10 @@ class PigLatinFormControl extends Control
     public function process(Form $form): void
     {
         $values = $form->getValues('array');
-        $splitInput = array_filter(explode(' ', $values['text']));
+        \assert(\is_array($values));
 
-        $translatedString = '';
+        $translationResult = $this->translatePigLatinService->translate($values['text']);
 
-        foreach ($splitInput as $word) {
-            $translatedString .= $this->translatePigLatinService->translate($word) . ' ';
-        }
-
-        $this->presenter->template->translatedText = $translatedString;
+        $this->presenter->template->translatedText = $translationResult;
     }
 }

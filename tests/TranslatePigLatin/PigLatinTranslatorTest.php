@@ -29,8 +29,13 @@ class PigLatinTranslatorTest extends TestCase
             'testVowel' => ['eagle', 'eagleyay'],
             'testSimpleSentence' => ['Quick brown fox jumps over the lazy dog.',
                 'uickQay ownbray oxfay umpsjay overyay ethay azylay ogday.'],
-            'testComplexSentence' =>  ['His house is very beautiful. That one, over there? Yes, that one!',
+            'testComplexSentence' =>  [
+                'His house is very beautiful. That one, over there? Yes, that one!',
                 'isHay ousehay isyay eryvay eautifulbay. atThay oneyay, overyay erethay? esYay, atthay oneyay!'],
+            'testMultilineSentence' => [
+                "This sentence is\nescaped like this.",
+                'isThay entencesay isyay escapedyay ikelay isthay.'],
+            'testPunctuationBothEnds' => ['?star!', '?arstay!'],
             'testPunctuationMiddle' => ['ki-ng', 'i-ngkay'],
             'testPunctuationBeginning' => ['!king', '!ingkay'],
         ];

@@ -18,30 +18,31 @@ class TranslatePigLatinService
         $pigLatinString = '';
 
         foreach ($splitInput as $word) {
-            if (!preg_match('/[a-zA-Z]/', $word)) {
-                $pigLatinString .= $word . ' ';
-
-                continue;
-            }
-
-            [$word, $punctuation, $end] = $this->extractPunctuation($word);
-
-            $translatedWord = in_array($word[0], $this->pigLatinEnum::getVowels(), true)
-                ? $this->translateVowelBeginning($word)
-                : $this->translateConsonantBeginning($word);
-
-            if ($punctuation !== null) {
-                $pigLatinString .= $end === true
-                    ? $translatedWord . $punctuation . ' '
-                    : $punctuation . $translatedWord . ' ';
-
-                continue;
-            }
-
-            $pigLatinString .= $translatedWord . ' ';
+            $pigLatinString .= $this->translateWord($word) . ' ';
         }
 
         return rtrim($pigLatinString);
+    }
+
+    private function translateWord(string $word): string
+    {
+        if (!preg_match('/[a-zA-Z]/', $word)) {
+            return $word;
+        }
+
+        [$word, $punctuation, $end] = $this->extractPunctuation($word);
+
+        $translatedWord = in_array($word[0], $this->pigLatinEnum::getVowels(), true)
+            ? $this->translateVowelBeginning($word)
+            : $this->translateConsonantBeginning($word);
+
+        if ($punctuation !== null) {
+            if ($end === true) {
+                return $translatedWord . $punctuation;
+            }
+            return $punctuation . $translatedWord;
+        }
+        return $translatedWord;
     }
 
     /** @return mixed[] */
@@ -69,21 +70,15 @@ class TranslatePigLatinService
 
     private function translateConsonantBeginning(string $word): string
     {
-        $consonantCluster = $rest = '';
-        $translationStringLen = strlen($word);
+        $consonantCluster = '';
 
-        for ($i = 0; $i < $translationStringLen; $i++) {
-            $char = $word[$i];
-
-            if (in_array($char, $this->pigLatinEnum::getConsonants(), true)) {
-                $consonantCluster .= $char;
-                $rest = substr($word, $i+1);
-            } else {
-                break;
-            }
+        while (!empty($word) && in_array($word[0], $this->pigLatinEnum::getConsonants(), true)) {
+            $char = $word[0];
+            $consonantCluster .= $char;
+            $word = substr($word, 1);
         }
 
-        return $rest . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_CONSONANT_SUFFIX;
+        return $word . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_CONSONANT_SUFFIX;
     }
 
     private function translateVowelBeginning(string $word): string

@@ -23,6 +23,7 @@ class PigLatinFormControl extends Control
         $form = new Form;
 
         $form->addTextArea('text', 'Input text', 75, 7)
+            ->setHtmlAttribute('placeholder', 'Insert text to be translated ...')
             ->setRequired();
 
         $form->addSubmit('send', 'Translate');

@@ -78,6 +78,13 @@ class TranslatePigLatinService
             $word = substr($word, 1);
         }
 
+        /* Even though 'u' is a vowel, in English
+        the pair 'qu' is considered a consonant */
+        if ($consonantCluster === 'q' && $word[0] === 'u') {
+            $consonantCluster .= $word[0];
+            $word = substr($word, 1);
+        }
+
         return $word . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_CONSONANT_SUFFIX;
     }
 

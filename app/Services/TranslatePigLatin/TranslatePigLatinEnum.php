@@ -4,7 +4,8 @@ namespace App\Services\TranslatePigLatin;
 
 class TranslatePigLatinEnum
 {
-    public const PIG_LATIN_SUFFIX = 'ay';
+    public const PIG_LATIN_CONSONANT_SUFFIX = 'ay';
+    public const PIG_LATIN_VOWEL_SUFFIX = 'yay';
 
     private const CONSONANTS = [
         'b', 'c', 'd', 'f',

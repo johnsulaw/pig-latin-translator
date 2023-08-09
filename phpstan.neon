@@ -5,4 +5,4 @@ parameters:
 	scanDirectories:
 		- app
 
-	level: 5
+	level: 7

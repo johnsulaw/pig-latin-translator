@@ -32,11 +32,11 @@ class TranslatePigLatinService
             }
         }
 
-        return $rest . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_SUFFIX;
+        return $rest . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_CONSONANT_SUFFIX;
     }
 
     private function translateVowelBeginning(string $translationString): string
     {
-        return $translationString . $this->pigLatinEnum::PIG_LATIN_SUFFIX;
+        return $translationString . $this->pigLatinEnum::PIG_LATIN_VOWEL_SUFFIX;
     }
 }

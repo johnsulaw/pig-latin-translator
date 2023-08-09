@@ -3,4 +3,4 @@
 
 passthru(escapeshellarg(__DIR__ . '/../vendor/bin/phpcs')
 	. ' ' . escapeshellarg('--standard=PSR2')
-	. ' --extensions=php --encoding=utf-8 --tab-width=4 -sp app');
+	. ' --extensions=php --encoding=utf-8 --tab-width=4 -sp app tests');

@@ -3,4 +3,4 @@
 
 passthru(escapeshellarg(__DIR__ . '/../vendor/bin/phpstan')
     . ' ' . escapeshellarg('analyse')
-    . ' ' . escapeshellarg('app'));
+    . ' app tests');

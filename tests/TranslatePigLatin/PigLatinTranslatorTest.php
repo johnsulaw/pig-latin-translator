@@ -11,67 +11,72 @@ class PigLatinTranslatorTest extends TestCase
 
     private TranslatePigLatinService $translatePigLatinService;
 
-    public function __construct()
+    /** @param mixed[] $data */
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
-        parent::__construct();
+        parent::__construct($name, $data, $dataName);
 
         $pigLatinEnum = new TranslatePigLatinEnum();
         $this->translatePigLatinService = new TranslatePigLatinService($pigLatinEnum);
     }
 
-    public function testTranslateConsonantWord(): void
+    /** @return string[][] */
+    public function translateDataProvider(): array
     {
-        $word = 'beast';
-        $expectedResult = 'eastbay';
+        return [
+            'testConsonant' => ['beast', 'eastbay'],
+            'testConsonantCluster' => ['strawberry', 'awberrystray'],
+            'testVowel' => ['eagle', 'eagleyay'],
+            'testSimpleSentence' => ['Quick brown fox jumps over the lazy dog.',
+                'uickQay ownbray oxfay umpsjay overyay ethay azylay ogday.'],
+            'testComplexSentence' =>  ['His house is very beautiful. That one, over there? Yes, that one!',
+                'isHay ousehay isyay eryvay eautifulbay. atThay oneyay, overyay erethay? esYay, atthay oneyay!'],
+            'testPunctuationMiddle' => ['ki-ng', 'i-ngkay'],
+            'testPunctuationBeginning' => ['!king', '!ingkay'],
+        ];
+    }
 
-        $result = $this->translatePigLatinService->translate($word);
+    /** @return string[][] */
+    public function nonAlphabeticalStringDataProvider(): array
+    {
+        return [
+            ['testNumber' => '42'],
+            ['testPunctuation' => '!'],
+            ['testMultiPunctuation' => '?!'],
+            ['testSemicolon' => ';'],
+            ['testSharp' => '#'],
+            ['testDash' => '-']
+        ];
+    }
+
+    /** @return string[][] */
+    public function whitespaceCharacterDataProvider(): array
+    {
+        return [
+            ['testSpace' => ' '],
+            ['testTab' => "\t"],
+            ['testNewline' => PHP_EOL]
+        ];
+    }
+
+    /** @dataProvider translateDataProvider */
+    public function testTranslate(string $input, string $expectedResult): void
+    {
+        $result = $this->translatePigLatinService->translate($input);
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testTranslateVowelWord(): void
+    /** @dataProvider nonAlphabeticalStringDataProvider */
+    public function testNonAlphabeticalString(string $input): void
     {
-        $word = 'eagle';
-        $expectedResult = 'eagleyay';
-
-        $result = $this->translatePigLatinService->translate($word);
-        $this->assertEquals($expectedResult, $result);
+        $result = $this->translatePigLatinService->translate($input);
+        $this->assertEquals($input, $result);
     }
 
-    public function testTranslateSimpleSentence(): void
+    /** @dataProvider whitespaceCharacterDataProvider */
+    public function testWhitespaceCharacters(string $input): void
     {
-        $sentence = 'Quick brown fox jumps over the lazy dog.';
-        $expectedResult = 'uickQay ownbray oxfay umpsjay overyay ethay azylay ogday.';
-
-        $result = $this->translatePigLatinService->translate($sentence);
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    public function testTranslateMultipleSentences(): void
-    {
-        $sentence = 'His house is very beautiful. That one, over there? Yes, that one!';
-        $expectedResult = 'isHay ousehay isyay eryvay eautifulbay. atThay oneyay, overyay erethay? esYay, atthay oneyay!';
-
-        $result = $this->translatePigLatinService->translate($sentence);
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    public function testTranslateNonAlphabeticalString(): void
-    {
-        $nonAlphaStrings = ['42', '!', '?!', ';', '#', '-'];
-
-        foreach ($nonAlphaStrings as $string) {
-            $result = $this->translatePigLatinService->translate($string);
-            $this->assertEquals($string, $result);
-        }
-    }
-
-    public function testWhitespaceCharacters(): void
-    {
-        $whitespaceCharacters = [' ', "\t", PHP_EOL];
-
-        foreach ($whitespaceCharacters as $character) {
-            $result = $this->translatePigLatinService->translate($character);
-            $this->assertEquals('', $result);
-        }
+        $result = $this->translatePigLatinService->translate($input);
+        $this->assertEquals('', $result);
     }
 }

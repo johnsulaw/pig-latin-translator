@@ -5,6 +5,9 @@ namespace App\Services\TranslatePigLatin;
 class TranslatePigLatinService
 {
 
+    private const WORD_END_PUNCTUATION = true;
+    private const WORD_BEGINNING_PUNCTUATION = false;
+
     public function __construct(private TranslatePigLatinEnum $pigLatinEnum)
     {
     }
@@ -21,29 +24,47 @@ class TranslatePigLatinService
                 continue;
             }
 
-            $punctuation = null;
+            [$word, $punctuation, $end] = $this->extractPunctuation($word);
 
-            if (preg_match('/[.,!?;:]$/', $word) === 1) {
-                [$word, $punctuation] = $this->handlePunctuation($word);
-            }
-
-            $pigLatinString .= in_array($word[0], $this->pigLatinEnum::getVowels(), true)
+            $translatedWord = in_array($word[0], $this->pigLatinEnum::getVowels(), true)
                 ? $this->translateVowelBeginning($word)
                 : $this->translateConsonantBeginning($word);
 
-            $pigLatinString .= $punctuation. ' ' ?? ' ';
+            if ($punctuation !== null) {
+                $pigLatinString .= $end === true
+                    ? $translatedWord . $punctuation . ' '
+                    : $punctuation . $translatedWord . ' ';
+
+                continue;
+            }
+
+            $pigLatinString .= $translatedWord . ' ';
         }
 
         return rtrim($pigLatinString);
     }
 
-    /** @return string[] */
-    private function handlePunctuation(string $word): array
+    /** @return mixed[] */
+    private function extractPunctuation(string $word): array
     {
-        $punctuation = substr($word, -1);
-        $word = substr($word, 0, -1);
+        $beginningPunctuation = preg_match('/^[[:punct:]]/', $word) === 1;
+        $endPunctuation = preg_match('/[[:punct:]]$/', $word) === 1;
 
-        return [$word, $punctuation];
+        if (!$beginningPunctuation && !$endPunctuation) {
+            return [$word, null, null];
+        }
+
+        if ($endPunctuation) {
+            $punctuation = substr($word, -1);
+            $word = substr($word, 0, -1);
+            $end = self::WORD_END_PUNCTUATION;
+        } else {
+            $punctuation = $word[0];
+            $word = substr($word, 1);
+            $end = self::WORD_BEGINNING_PUNCTUATION;
+        }
+
+        return [$word, $punctuation, $end];
     }
 
     private function translateConsonantBeginning(string $word): string

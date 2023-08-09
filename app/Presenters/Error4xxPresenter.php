@@ -4,6 +4,10 @@ namespace App\Presenters;
 
 use Nette;
 
+/**
+ * @property-read Nette\Bridges\ApplicationLatte\Template $template
+ * @property-read Nette\Application\Request               $request
+ */
 final class Error4xxPresenter extends Nette\Application\UI\Presenter
 {
     public function startup(): void

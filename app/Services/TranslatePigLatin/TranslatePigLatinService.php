@@ -12,19 +12,19 @@ class TranslatePigLatinService
     {
     }
 
-    public function translate(string $translationString): string
+    public function translate(string $translationString, bool $useHyphen = false): string
     {
         $splitInput = array_filter(preg_split('/[ \t\n]+/', $translationString));
         $pigLatinString = '';
 
         foreach ($splitInput as $word) {
-            $pigLatinString .= $this->translateWord($word) . ' ';
+            $pigLatinString .= $this->translateWord($word, $useHyphen) . ' ';
         }
 
         return rtrim($pigLatinString);
     }
 
-    private function translateWord(string $word): string
+    private function translateWord(string $word, bool $useHyphen): string
     {
         if (!preg_match('/[a-zA-Z]/', $word)) {
             return $word;
@@ -33,8 +33,8 @@ class TranslatePigLatinService
         [$word, $punctuation, $end] = $this->extractPunctuation($word);
 
         $translatedWord = in_array($word[0], $this->pigLatinEnum::getVowels(), true)
-            ? $this->translateVowelBeginning($word)
-            : $this->translateConsonantBeginning($word);
+            ? $this->translateVowelBeginning($word, $useHyphen)
+            : $this->translateConsonantBeginning($word, $useHyphen);
 
         if ($punctuation !== null) {
             if ($end === true) {
@@ -68,7 +68,7 @@ class TranslatePigLatinService
         return [$word, $punctuation, $end];
     }
 
-    private function translateConsonantBeginning(string $word): string
+    private function translateConsonantBeginning(string $word, bool $useHyphen): string
     {
         $consonantCluster = '';
 
@@ -85,11 +85,15 @@ class TranslatePigLatinService
             $word = substr($word, 1);
         }
 
-        return $word . $consonantCluster . $this->pigLatinEnum::PIG_LATIN_CONSONANT_SUFFIX;
+        return $useHyphen === true
+            ? $word . $this->pigLatinEnum::SEPARATOR . $consonantCluster . $this->pigLatinEnum::CONSONANT_SUFFIX
+            : $word . $consonantCluster . $this->pigLatinEnum::CONSONANT_SUFFIX;
     }
 
-    private function translateVowelBeginning(string $word): string
+    private function translateVowelBeginning(string $word, bool $useHyphen): string
     {
-        return $word . $this->pigLatinEnum::PIG_LATIN_VOWEL_SUFFIX;
+        return $useHyphen === true
+            ? $word . $this->pigLatinEnum::SEPARATOR . $this->pigLatinEnum::VOWEL_SUFFIX
+            : $word . $this->pigLatinEnum::VOWEL_SUFFIX;
     }
 }

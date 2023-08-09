@@ -26,6 +26,13 @@ class PigLatinFormControl extends Control
             ->setHtmlAttribute('placeholder', 'Insert text to be translated ...')
             ->setRequired();
 
+        $form->addCheckbox('hyphen', 'Add hyphen to translation')
+            ->setHtmlAttribute(
+                'title',
+                'Switch to translation that uses hyphen.
+                 This allows for easier understanding of original meaning when dealing with ambiguous words.'
+            );
+
         $form->addSubmit('send', 'Translate');
 
         $form->onSuccess[] = [$this, 'process'];
@@ -38,7 +45,7 @@ class PigLatinFormControl extends Control
         $values = $form->getValues('array');
         \assert(\is_array($values));
 
-        $translationResult = $this->translatePigLatinService->translate($values['text']);
+        $translationResult = $this->translatePigLatinService->translate($values['text'], $values['hyphen']);
 
         $this->presenter->template->translatedText = $translationResult;
     }

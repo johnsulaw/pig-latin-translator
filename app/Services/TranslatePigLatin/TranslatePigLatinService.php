@@ -14,7 +14,7 @@ class TranslatePigLatinService
 
     public function translate(string $translationString): string
     {
-        $splitInput = array_filter(explode(' ', $translationString));
+        $splitInput = array_filter(preg_split('/[ \t\n]+/', $translationString));
         $pigLatinString = '';
 
         foreach ($splitInput as $word) {

@@ -64,6 +64,15 @@ class PigLatinTranslatorTest extends TestCase
         ];
     }
 
+    /** @return string[][] */
+    public function ambiguousWordsDataProvider(): array
+    {
+        return [
+            ['prays', 'ays-pray'],
+            ['spray', 'ay-spray']
+        ];
+    }
+
     /** @dataProvider translateDataProvider */
     public function testTranslate(string $input, string $expectedResult): void
     {
@@ -83,5 +92,12 @@ class PigLatinTranslatorTest extends TestCase
     {
         $result = $this->translatePigLatinService->translate($input);
         $this->assertEquals('', $result);
+    }
+
+    /** @dataProvider ambiguousWordsDataProvider */
+    public function testAmbiguousWords(string $input, string $expectedResult): void
+    {
+        $result = $this->translatePigLatinService->translate($input, true);
+        $this->assertEquals($expectedResult, $result);
     }
 }

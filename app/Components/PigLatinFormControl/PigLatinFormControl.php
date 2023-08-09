@@ -26,11 +26,10 @@ class PigLatinFormControl extends Control
             ->setHtmlAttribute('placeholder', 'Insert text to be translated ...')
             ->setRequired();
 
-        $form->addCheckbox('hyphen', 'Add hyphen to translation')
+        $form->addCheckbox('hyphen', 'Translate with separator')
             ->setHtmlAttribute(
                 'title',
-                'Switch to translation that uses hyphen.
-                 This allows for easier understanding of original meaning when dealing with ambiguous words.'
+                'Switch to translation that uses separator. This allows for easier understanding of original meaning when dealing with ambiguous words.'
             );
 
         $form->addSubmit('send', 'Translate');

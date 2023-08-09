@@ -11,6 +11,10 @@ class TranslatePigLatinService
 
     public function translate(string $translationString): string
     {
+        if (is_numeric($translationString) || ctype_space($translationString)) {
+            return $translationString;
+        }
+
         return in_array($translationString[0], $this->pigLatinEnum::getVowels(), true)
             ? $this->translateVowelBeginning($translationString)
             : $this->translateConsonantBeginning($translationString);

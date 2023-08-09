@@ -40,9 +40,7 @@ class PigLatinFormControl extends Control
         $translatedString = '';
 
         foreach ($splitInput as $word) {
-            $translatedString .= is_numeric($word)
-                ? $word . ' '
-                : $this->translatePigLatinService->translate($word) . ' ';
+            $translatedString .= $this->translatePigLatinService->translate($word) . ' ';
         }
 
         $this->presenter->template->translatedText = $translatedString;

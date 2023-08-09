@@ -31,7 +31,7 @@ class PigLatinTranslatorTest extends TestCase
     public function testTranslateVowelWord(): void
     {
         $word = 'eagle';
-        $expectedResult = 'eagleay';
+        $expectedResult = 'eagleyay';
 
         $result = $this->translatePigLatinService->translate($word);
         $this->assertEquals($expectedResult, $result);

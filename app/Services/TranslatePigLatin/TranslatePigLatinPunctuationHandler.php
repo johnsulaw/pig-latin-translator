@@ -24,7 +24,6 @@ class TranslatePigLatinPunctuationHandler
         $this->endPunctuation = $endPunctuation ? $endPunctuationMatches[0] : '';
 
         return preg_replace('/^[[:punct:]]+|[[:punct:]]+$/', '', $punctuatedWord);
-
     }
 
     public function reassembleWord(string $translatedWord): string

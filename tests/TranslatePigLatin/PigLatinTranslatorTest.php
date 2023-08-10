@@ -17,10 +17,9 @@ class PigLatinTranslatorTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $pigLatinEnum = new TranslatePigLatinEnum();
         $pigLatinPunctuationHandler = new TranslatePigLatinPunctuationHandler();
 
-        $this->translatePigLatinService = new TranslatePigLatinService($pigLatinEnum, $pigLatinPunctuationHandler);
+        $this->translatePigLatinService = new TranslatePigLatinService($pigLatinPunctuationHandler);
     }
 
     /** @return string[][] */

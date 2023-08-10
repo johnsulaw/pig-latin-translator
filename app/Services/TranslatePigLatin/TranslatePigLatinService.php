@@ -79,7 +79,7 @@ class TranslatePigLatinService
         }
 
         /* Even though 'u' is a vowel, in English
-        the pair 'qu' is considered a consonant */
+        the pair 'qu' is considered a consonant cluster */
         if ($consonantCluster === 'q' && $word[0] === 'u') {
             $consonantCluster .= $word[0];
             $word = substr($word, 1);

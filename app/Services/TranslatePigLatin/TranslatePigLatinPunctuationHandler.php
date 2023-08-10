@@ -9,52 +9,63 @@ class TranslatePigLatinPunctuationHandler
 
     private string $endPunctuation = '';
 
-    private string $word;
-
     public function __construct()
     {
     }
 
-    public function handlePunctuation(string $word): void
+    public function disassembleWord(string $punctuatedWord): string
     {
         $beginningPunctuationMatches = $endPunctuationMatches = [];
 
-        $beginningPunctuation = preg_match('/^[[:punct:]]+/', $word, $beginningPunctuationMatches) === 1;
-        $endPunctuation = preg_match('/[[:punct:]]+$/', $word, $endPunctuationMatches) === 1;
+        $beginningPunctuation = preg_match('/^[[:punct:]]+/', $punctuatedWord, $beginningPunctuationMatches) === 1;
+        $endPunctuation = preg_match('/[[:punct:]]+$/', $punctuatedWord, $endPunctuationMatches) === 1;
 
         $this->beginningPunctuation = $beginningPunctuation ? $beginningPunctuationMatches[0] : '';
         $this->endPunctuation = $endPunctuation ? $endPunctuationMatches[0] : '';
 
-        $this->word = preg_replace('/^[[:punct:]]+/', '', $word);
-        $this->word = preg_replace('/[[:punct:]]+$/', '', $this->word);
+        return preg_replace('/^[[:punct:]]+|[[:punct:]]+$/', '', $punctuatedWord);
+
     }
 
-    public function hasBeginningPunctuation(): bool
+    public function reassembleWord(string $translatedWord): string
+    {
+        if ($this->hasPunctuation()) {
+            if ($this->hasEndPunctuation()
+                && $this->hasBeginningPunctuation()
+            ) {
+                return $this->getBeginningPunctuation()
+                    . $translatedWord
+                    . $this->getEndPunctuation();
+            }
+            if ($this->hasEndPunctuation()) {
+                return $translatedWord . $this->getEndPunctuation();
+            }
+            return $this->getBeginningPunctuation() . $translatedWord;
+        }
+        return $translatedWord;
+    }
+
+    private function hasBeginningPunctuation(): bool
     {
         return $this->beginningPunctuation !== '';
     }
 
-    public function hasEndPunctuation(): bool
+    private function hasEndPunctuation(): bool
     {
         return $this->endPunctuation !== '';
     }
 
-    public function hasPunctuation(): bool
+    private function hasPunctuation(): bool
     {
         return $this->hasEndPunctuation() || $this->hasBeginningPunctuation();
     }
 
-    public function getWord(): string
-    {
-        return $this->word;
-    }
-
-    public function getBeginningPunctuation(): string
+    private function getBeginningPunctuation(): string
     {
         return $this->beginningPunctuation;
     }
 
-    public function getEndPunctuation(): string
+    private function getEndPunctuation(): string
     {
         return $this->endPunctuation;
     }

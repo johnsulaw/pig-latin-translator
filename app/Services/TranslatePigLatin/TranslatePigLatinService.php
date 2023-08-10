@@ -5,16 +5,24 @@ namespace App\Services\TranslatePigLatin;
 class TranslatePigLatinService
 {
 
-    public function __construct(private TranslatePigLatinEnum $pigLatinEnum, private TranslatePigLatinPunctuationHandler $punctuationHandler)
-    {
+    public function __construct(
+        private TranslatePigLatinEnum $pigLatinEnum,
+        private TranslatePigLatinPunctuationHandler $punctuationHandler
+    ) {
     }
 
     public function translate(string $translationString, bool $useHyphen = false): string
     {
-        $splitInput = array_filter(preg_split('/[ \t\n]+/', $translationString));
+        $splitInput = preg_split('/[ \t\n]+/', $translationString);
+
+        if ($splitInput === false) {
+            return 'An error occurred. Please try again.';
+        }
+
+        $filteredInput = array_filter($splitInput);
         $pigLatinString = '';
 
-        foreach ($splitInput as $word) {
+        foreach ($filteredInput as $word) {
             $pigLatinString .= $this->translateWord($word, $useHyphen) . ' ';
         }
 
@@ -27,28 +35,13 @@ class TranslatePigLatinService
             return $word;
         }
 
-        $this->punctuationHandler->handlePunctuation($word);
-        $word = $this->punctuationHandler->getWord();
+        $word = $this->punctuationHandler->disassembleWord($word);
 
         $translatedWord = in_array($word[0], $this->pigLatinEnum::getVowels(), true)
             ? $this->translateVowelBeginning($word, $useHyphen)
             : $this->translateConsonantBeginning($word, $useHyphen);
 
-        return $this->reassembleWord($translatedWord);
-    }
-
-    private function reassembleWord(string $translatedWord): string
-    {
-        if ($this->punctuationHandler->hasPunctuation()) {
-            if ($this->punctuationHandler->hasEndPunctuation() && $this->punctuationHandler->hasBeginningPunctuation()) {
-                return $this->punctuationHandler->getBeginningPunctuation() . $translatedWord . $this->punctuationHandler->getEndPunctuation();
-            }
-            if ($this->punctuationHandler->hasEndPunctuation()) {
-                return $translatedWord . $this->punctuationHandler->getEndPunctuation();
-            }
-            return $this->punctuationHandler->getBeginningPunctuation() . $translatedWord;
-        }
-        return $translatedWord;
+        return $this->punctuationHandler->reassembleWord($translatedWord);
     }
 
     private function translateConsonantBeginning(string $word, bool $useHyphen): string

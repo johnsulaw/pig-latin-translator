@@ -29,7 +29,8 @@ class PigLatinFormControl extends Control
         $form->addCheckbox('hyphen', 'Translate with separator')
             ->setHtmlAttribute(
                 'title',
-                'Switch to translation that uses separator. This allows for easier understanding of original meaning when dealing with ambiguous words.'
+                'Switch to translation that uses separator. '
+                . 'This allows for easier understanding of original meaning when dealing with ambiguous words.'
             );
 
         $form->addSubmit('send', 'Translate');

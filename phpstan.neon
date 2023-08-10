@@ -4,5 +4,6 @@ includes:
 parameters:
 	scanDirectories:
 		- app
+		- tests
 
 	level: 7

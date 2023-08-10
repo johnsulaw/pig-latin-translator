@@ -26,7 +26,7 @@ class PigLatinFormControl extends Control
             ->setHtmlAttribute('placeholder', 'Insert text to be translated ...')
             ->setRequired();
 
-        $form->addCheckbox('hyphen', 'Translate with separator')
+        $form->addCheckbox('separator', 'Translate with separator')
             ->setHtmlAttribute(
                 'title',
                 'Switch to translation that uses separator. '
@@ -46,7 +46,7 @@ class PigLatinFormControl extends Control
         \assert(\is_array($values));
 
         try {
-            $translationResult = $this->translatePigLatinService->translate($values['text'], $values['hyphen']);
+            $translationResult = $this->translatePigLatinService->translate($values['text'], $values['separator']);
         } catch (\RuntimeException $e) {
             $this->presenter->template->translatedText = $e->getMessage();
 

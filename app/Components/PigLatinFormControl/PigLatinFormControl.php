@@ -45,7 +45,13 @@ class PigLatinFormControl extends Control
         $values = $form->getValues('array');
         \assert(\is_array($values));
 
-        $translationResult = $this->translatePigLatinService->translate($values['text'], $values['hyphen']);
+        try {
+            $translationResult = $this->translatePigLatinService->translate($values['text'], $values['hyphen']);
+        } catch (\RuntimeException $e) {
+            $this->presenter->template->translatedText = $e->getMessage();
+
+            return;
+        }
 
         $this->presenter->template->translatedText = $translationResult;
     }

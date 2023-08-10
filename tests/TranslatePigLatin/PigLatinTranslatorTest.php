@@ -41,6 +41,9 @@ class PigLatinTranslatorTest extends TestCase
             'testPunctuationMiddle' => ['ki-ng', 'i-ngkay'],
             'testPunctuationBeginning' => ['!king', '!ingkay'],
             'testPunctuationRepeating' => ['!.?three!!', '!.?eethray!!'],
+            'testQuConsonant' => ['question', 'estionquay'],
+            'testOnlyConsonantString' => ['hhhhh', 'hhhhhay'],
+            'testOnlyVowelString' => ['aeae', 'aeaeyay'],
         ];
     }
 

@@ -18,7 +18,7 @@ class TranslatePigLatinService
         $splitInput = preg_split('/[ \t\n]+/', $translationString);
 
         if ($splitInput === false) {
-            return 'An error occurred. Please try again.';
+            throw new \RuntimeException('An error occurred while parsing the input string.');
         }
 
         $filteredInput = array_filter($splitInput);
@@ -40,13 +40,13 @@ class TranslatePigLatinService
         $word = $this->punctuationHandler->disassembleWord($word);
 
         $translatedWord = in_array($word[0], TranslatePigLatinEnum::getVowels(), true)
-            ? $this->translateVowelBeginning($word)
-            : $this->translateConsonantBeginning($word);
+            ? $this->translateVowelWord($word)
+            : $this->translateConsonantWord($word);
 
         return $this->punctuationHandler->reassembleWord($translatedWord);
     }
 
-    private function translateConsonantBeginning(string $word): string
+    private function translateConsonantWord(string $word): string
     {
         $consonantCluster = '';
 
@@ -56,9 +56,8 @@ class TranslatePigLatinService
             $word = substr($word, 1);
         }
 
-        /* Even though 'u' is a vowel, in English
-        the pair 'qu' is considered a consonant cluster */
-        if ($consonantCluster === 'q' && $word[0] === 'u') {
+        // Even though 'u' is a vowel, in English the pair 'qu' is considered a consonant cluster
+        if (!empty($word) && $consonantCluster . $word[0] === TranslatePigLatinEnum::QU_CONSONANT) {
             $consonantCluster .= $word[0];
             $word = substr($word, 1);
         }
@@ -68,7 +67,7 @@ class TranslatePigLatinService
             : $word . $consonantCluster . TranslatePigLatinEnum::CONSONANT_SUFFIX;
     }
 
-    private function translateVowelBeginning(string $word): string
+    private function translateVowelWord(string $word): string
     {
         return $this->useSeparator === true
             ? $word . TranslatePigLatinEnum::SEPARATOR . TranslatePigLatinEnum::VOWEL_SUFFIX

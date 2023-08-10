@@ -7,6 +7,7 @@ class TranslatePigLatinEnum
     public const CONSONANT_SUFFIX = 'ay';
     public const VOWEL_SUFFIX = 'yay';
     public const SEPARATOR = '-';
+    public const QU_CONSONANT = 'qu';
 
     private const CONSONANTS = [
         'b', 'c', 'd', 'f',

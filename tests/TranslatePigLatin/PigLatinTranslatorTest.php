@@ -3,6 +3,7 @@
 namespace TranslatePigLatin;
 
 use App\Services\TranslatePigLatin\TranslatePigLatinEnum;
+use App\Services\TranslatePigLatin\TranslatePigLatinPunctuationHandler;
 use App\Services\TranslatePigLatin\TranslatePigLatinService;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,9 @@ class PigLatinTranslatorTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         $pigLatinEnum = new TranslatePigLatinEnum();
-        $this->translatePigLatinService = new TranslatePigLatinService($pigLatinEnum);
+        $pigLatinPunctuationHandler = new TranslatePigLatinPunctuationHandler();
+
+        $this->translatePigLatinService = new TranslatePigLatinService($pigLatinEnum, $pigLatinPunctuationHandler);
     }
 
     /** @return string[][] */
@@ -38,6 +41,7 @@ class PigLatinTranslatorTest extends TestCase
             'testPunctuationBothEnds' => ['?star!', '?arstay!'],
             'testPunctuationMiddle' => ['ki-ng', 'i-ngkay'],
             'testPunctuationBeginning' => ['!king', '!ingkay'],
+            'testPunctuationRepeating' => ['!.?three!!', '!.?eethray!!'],
         ];
     }
 

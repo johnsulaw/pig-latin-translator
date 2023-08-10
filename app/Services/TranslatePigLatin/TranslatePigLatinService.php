@@ -11,6 +11,11 @@ class TranslatePigLatinService
     {
     }
 
+    /**
+     * Function handles the translation process.
+     *
+     * @return string Input string translated into Pig Latin.
+     */
     public function translate(string $translationString, bool $useSeparator = false): string
     {
         $this->useSeparator = $useSeparator;
@@ -21,6 +26,7 @@ class TranslatePigLatinService
             throw new \RuntimeException('An error occurred while parsing the input string.');
         }
 
+        // Remove whitespaces from the split string array
         $filteredInput = array_filter($splitInput);
         $pigLatinString = '';
 
@@ -37,6 +43,7 @@ class TranslatePigLatinService
             return $word;
         }
 
+        // Remove punctuation from the word and save it for future reassembly
         $word = $this->punctuationHandler->disassembleWord($word);
 
         $translatedWord = in_array($word[0], TranslatePigLatinEnum::getVowels(), true)
@@ -50,6 +57,7 @@ class TranslatePigLatinService
     {
         $consonantCluster = '';
 
+        // Loop through the word until a vowel is found
         while (!empty($word) && in_array($word[0], TranslatePigLatinEnum::getConsonants(), true)) {
             $char = $word[0];
             $consonantCluster .= $char;
@@ -57,7 +65,7 @@ class TranslatePigLatinService
         }
 
         // Even though 'u' is a vowel, in English the pair 'qu' is considered a consonant cluster
-        if (!empty($word) && $consonantCluster . $word[0] === TranslatePigLatinEnum::QU_CONSONANT) {
+        if (!empty($word) && strtolower($consonantCluster . $word[0]) === TranslatePigLatinEnum::QU_CONSONANT) {
             $consonantCluster .= $word[0];
             $word = substr($word, 1);
         }

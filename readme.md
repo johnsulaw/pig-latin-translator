@@ -28,6 +28,21 @@ Transcription varies. A hyphen or apostrophe is sometimes used to facilitate tra
 into English. Ayspray, for instance, is ambiguous, but ay-spray means “spray“ whereas ays-pray
 means “prays.
 
+Implementation details
+------------
+Words beginning with vowels get appended the **'yay'** suffix. Consonant beginning words get the **'ay'** suffix.
+Implementation handles sentences. Excess whitespaces are stripped during translation. Standalone numbers
+and punctuation that are not part of a word are left as they were. The same applies for numbers and punctuation
+at the beginning, end or middle of a word in the sense that they stay on their original position. Translator
+handles consonant only strings by appending the consonant 'ay' suffix to them. Capital letters are left as they
+were in the original string. The translator has the **option of turning on or off separator '-'** before the suffixes
+to facilitate reverse translation of ambiguous words. Also handling of 'qu' consonant cluster is implemented.
+The translator does not consider silent consonant words as special and treats them as expected. The letter 'Y' is
+treated as consonant in this implementation.
+
+The front end part is minimalistic - just to showcase the translator functionality.
+
+
 Requirements
 ------------
 - Runs with Nette 3.1 and PHP 8.0

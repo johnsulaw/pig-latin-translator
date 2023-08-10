@@ -2,6 +2,11 @@
 
 namespace App\Services\TranslatePigLatin;
 
+/**
+ * This class handles punctuation in the input word by
+ * splitting the string into three parts - end and beginning
+ * punctuation and the word itself.
+ */
 class TranslatePigLatinPunctuationHandler
 {
 
@@ -13,6 +18,12 @@ class TranslatePigLatinPunctuationHandler
     {
     }
 
+    /**
+     * This function splits the word with punctuation into the
+     * three different parts and stores relevant data.
+     *
+     * @return string Word with removed punctuation
+     */
     public function disassembleWord(string $punctuatedWord): string
     {
         $beginningPunctuationMatches = $endPunctuationMatches = [];
@@ -26,6 +37,12 @@ class TranslatePigLatinPunctuationHandler
         return preg_replace('/^[[:punct:]]+|[[:punct:]]+$/', '', $punctuatedWord);
     }
 
+    /**
+     * This function puts back together the translated word with
+     * saved punctuation at the correct places.
+     *
+     * @return string Translated word with punctuation
+     */
     public function reassembleWord(string $translatedWord): string
     {
         if ($this->hasPunctuation()) {

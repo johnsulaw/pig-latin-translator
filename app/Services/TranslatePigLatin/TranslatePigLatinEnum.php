@@ -2,6 +2,10 @@
 
 namespace App\Services\TranslatePigLatin;
 
+/**
+ * This class defines all the constants used in the
+ * translation process.
+ */
 class TranslatePigLatinEnum
 {
     public const CONSONANT_SUFFIX = 'ay';
